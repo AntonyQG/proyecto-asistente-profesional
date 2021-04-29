@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <v-app-bar
+    <!-- <v-app-bar
       app
-      color="primary"
+      color="success"
       dark
     >
       <div class="d-flex align-center">
@@ -35,22 +35,30 @@
         <span class="mr-2">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
-    </v-app-bar>
+    </v-app-bar> -->
 
     <v-main>
-      <HelloWorld/>
+      <NavBar/>
+      <!-- <HelloWorld/> -->
+      <!-- <Login/> -->
+      <SignUp/>
+      <!-- <Test/> -->
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
+import NavBar from './components/NavBar'
+// import HelloWorld from './components/HelloWorld';
+// import Login from './views/Login'
+import SignUp from './views/SignUp';
+// import Test from './views/Test';
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    NavBar,
+    SignUp,
   },
 
   data: () => ({
