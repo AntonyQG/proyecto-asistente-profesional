@@ -1,66 +1,36 @@
 <template>
   <v-app>
-    <!-- <v-app-bar
-      app
-      color="success"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar> -->
-
-    <v-main>
-      <NavBar/>
-      <!-- <HelloWorld/> -->
-      <!-- <Login/> -->
-      <SignUp/>
-      <!-- <Test/> -->
-    </v-main>
+    <NavBar/>
+    <router-view />
   </v-app>
 </template>
 
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
 <script>
-import NavBar from './components/NavBar'
-// import HelloWorld from './components/HelloWorld';
-// import Login from './views/Login'
-import SignUp from './views/SignUp';
-// import Test from './views/Test';
+import { onBeforeMount } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import firebase from 'firebase';
+import 'firebase/auth';
+// import 'firebase/auth';
+import NavBar from './components/NavBar';
 export default {
   name: 'App',
-
+  setup() {
+    const router = useRouter();
+    const route = useRoute();
+    onBeforeMount (() => {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (!user) {
+          router.replace('/login');
+        } else if (route.path == '/login' || route.path == '/signup') {
+          router.replace('/');
+        }
+      });
+    });
+  },
   components: {
     NavBar,
-    SignUp,
   },
-
   data: () => ({
     //
   }),
