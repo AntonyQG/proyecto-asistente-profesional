@@ -27,13 +27,25 @@
         :search="search"
       ></v-data-table>
     </v-card>
+    <v-col class="mb-4">
+      {{$data}}
+      <p class="subheading font-weight-regular">
+        Test para ver lo del logout
+        <a
+          href="#"
+          @click="logout"
+        >Logout</a>
+      </p>
+    </v-col>
   </v-container>
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
   data() {
     return {
+      user: firebase.auth().currentUser.email,
       search: '',
       items: [
         {
@@ -69,7 +81,16 @@ export default {
     },
   },
   methods: {
-    
+    logout() {
+      firebase.auth().signOut().then((user) => {
+        // Se ha completado el logout
+        this.$router.replace('Login');
+        console.log("Usuario: ", user.email);
+      }).catch(() => {
+        // Ocurrió un error
+        alert('Ocurrió un error al intentar salir del sistema');
+      });
+    }
   },
 }
 </script>

@@ -22,6 +22,7 @@
           ref="form"
           v-model="valid"
           lazy-validation
+          @submit.prevent="login"
         >
 
           <v-text-field
@@ -44,14 +45,19 @@
           ></v-text-field>
 
           <v-btn
-            :disabled="!valid"
+            :disabled="!validate"
             color="success"
             class="mr-4"
-            @click="validate"
+            @click="login"
           >
             Enviar
           </v-btn>
         </v-form>
+
+        <!-- TEST -->
+        <pre>
+          {{$data}}
+        </pre>
       </v-col>
 
       <v-col class="mb-4">
@@ -60,27 +66,30 @@
           <a
             href="./SignUp"
           >Registrate</a>
-          <!-- <router-link to="/signup">Regístrate</router-link> -->
-          <!-- </router-view> -->
         </p>
       </v-col>
+
+      <!-- Dialog Box to send alert -->
     </v-row>
     </v-container>
 </template>
 
 <script>
+import firebase from 'firebase';
 export default {
     name: 'Login',
     data() {
       return {
         valid: true,
+        activateButton: false,
         email: '',
+        password: '',
+        user: firebase.auth().currentUser,
         emailRules: [
           v => !!v || 'E-mail es requerido',
           v => /.+@.+\..+/.test(v) || 'Debe contener un E-mail valido',
         ],
         show1: false,
-        password: '',
         rules: {
           required: value => !!value || 'Requerido.',
           min: v => v.length >= 8 || 'Mín 8 caracteres',
@@ -91,6 +100,26 @@ export default {
     methods: {
       validate () {
         this.$refs.form.validate()
+      },
+      login () {
+        if (this.email == "" || this.password == "") {
+          alert('Favor de completar formulario');
+        } else {
+          firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+            .then((userCredential) => {
+              // Signed in
+              var user = userCredential.user;
+              console.log(user);
+              alert('Usuario conectado');
+              this.$router.replace('answer')
+            })
+            .catch((error) => {
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              alert('Error message: ' + errorMessage + ' Error code: ' + errorCode);
+              console.log(error);
+            });
+        }
       },
     },
 }
