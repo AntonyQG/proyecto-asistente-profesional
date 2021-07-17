@@ -69,6 +69,16 @@
         </p>
       </v-col>
 
+      <v-col class="mb-4">
+        <p class="subheading font-weight-regular">
+          Test Logout
+          <a
+            href="#"
+            @click="logout"
+          >Logout</a>
+        </p>
+      </v-col>
+
       <!-- Dialog Box to send alert -->
     </v-row>
     </v-container>
@@ -120,6 +130,9 @@ export default {
               console.log(error);
             });
         }
+      },
+      logout () {
+        firebase.auth().signOut();
       },
     },
 }

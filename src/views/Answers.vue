@@ -27,70 +27,61 @@
         :search="search"
       ></v-data-table>
     </v-card>
+
     <v-col class="mb-4">
-      {{$data}}
+      {{ $data }}
       <p class="subheading font-weight-regular">
         Test para ver lo del logout
-        <a
-          href="#"
-          @click="logout"
-        >Logout</a>
+        <a href="#" @click="logout">Logout</a>
       </p>
     </v-col>
   </v-container>
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from "firebase";
 export default {
   data() {
     return {
       user: firebase.auth().currentUser.email,
-      search: '',
+      search: "",
       items: [
         {
-          preguntas: 'Test Preguntas',
-          etiquetas: 'Test Etiquetas'
+          preguntas: "Test Preguntas",
+          etiquetas: "Test Etiquetas",
         },
         {
-          preguntas: 'Test Preguntas 2',
-          etiquetas: 'Test Etiquetas 2'
+          preguntas: "Test Preguntas 2",
+          etiquetas: "Test Etiquetas 2",
         },
         {
-          preguntas: 'Test Preguntas 3',
-          etiquetas: 'Test Etiquetas 3'
+          preguntas: "Test Preguntas 3",
+          etiquetas: "Test Etiquetas 3",
         },
       ],
-
-    }
+    };
   },
   computed: {
-    headers () {
+    headers() {
       return [
         {
-          text: 'Preguntas',
-          align: 'start',
-          value: 'preguntas',
+          text: "Preguntas",
+          align: "start",
+          value: "preguntas",
         },
         {
-          text: 'Etiqueta',
-          align: 'start',
-          value: 'etiquetas',
+          text: "Etiqueta",
+          align: "start",
+          value: "etiquetas",
         },
-      ]
+      ];
     },
   },
   methods: {
     logout() {
-      firebase.auth().signOut().then((user) => {
-        // Se ha completado el logout
-        this.$router.replace('Login');
-        console.log("Usuario: ", user.email);
-      }).catch(() => {
-        // Ocurrió un error
-        alert('Ocurrió un error al intentar salir del sistema');
-      });
-    }
+      firebase.auth().signOut();
+      this.$router.replace("Login");
+    },
   },
-}
+};
 </script>
